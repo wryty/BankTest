@@ -5,16 +5,99 @@
 			 xmlns:m="clr-namespace:BankTest.Models"
 			 x:Class="BankTest.Views.BranchesPage"
 			 x:DataType="vm:BranchesViewModel">
-    <CollectionView ItemsSource="{Binding Items}">
-        <CollectionView.ItemTemplate>
-        <DataTemplate x:DataType="m:Branch">
-            <Frame Margin="4" Padding="12">
-                <Frame.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BranchesViewModel}}, Path=GoToDetailsCommand}" CommandParameter="{Binding .}" />
-                </Frame.GestureRecognizers>
-                <Label Text="{Binding BranchName}" FontSize="Large" TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
-            </Frame>
-        </DataTemplate> 
-    </CollectionView.ItemTemplate>
-    </CollectionView>
+    <Grid BackgroundColor="{StaticResource Primary}" RowDefinitions="50,*">
+        <Border></Border>
+
+
+
+        <Label
+       
+         Margin="0,10,0,0"
+         FontFamily="Medium"
+         FontSize="20"
+         Style="{StaticResource BaseDarkLbl}"
+         HorizontalTextAlignment="Center"
+         Text="Отделения" />
+        <ActivityIndicator
+         Grid.Row="0"
+         BackgroundColor="Transparent"
+         HorizontalOptions="FillAndExpand"
+         VerticalOptions="CenterAndExpand"
+         ZIndex="1"
+         Color="{StaticResource Tertiary}" />
+        <Grid Grid.Row="1" RowDefinitions="*,70">
+            <CollectionView
+             Grid.Row="0"
+             HorizontalOptions="Center"
+             IsGrouped="True"
+             ItemTemplate="{StaticResource colorSelector}"
+             
+             SelectionMode="None"
+             VerticalScrollBarVisibility="Always">
+                <CollectionView.GroupHeaderTemplate>
+                    <DataTemplate>
+                        <Label
+                         Margin="40,20,0,0"
+                         BackgroundColor="Transparent"
+                         FontFamily="Black"
+                         FontSize="18"
+                         HorizontalOptions="Start"
+                         Style="{StaticResource BaseDarkLbl}"
+                          />
+                    </DataTemplate>
+                </CollectionView.GroupHeaderTemplate>
+
+            </CollectionView>
+            <Button
+             Grid.Row="1"
+             
+             ZIndex="1" />
+
+
+
+
+
+
+            <CollectionView ItemsSource="{Binding Items}" BackgroundColor="White">
+                <CollectionView.ItemTemplate >
+                    <DataTemplate x:DataType="m:Branch" >
+                        <Frame Margin="4" Padding="12" BackgroundColor="Snow">
+                            <Frame.GestureRecognizers >
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BranchesViewModel}}, Path=GoToDetailsCommand}" CommandParameter="{Binding .}" />
+                            </Frame.GestureRecognizers>
+                            <VerticalStackLayout
+                                Grid.Column="1"
+                                Padding="10"
+                                HorizontalOptions="Start">
+                                <Label
+                                    
+                                    Grid.Column="1"
+                                    Margin="0,13,0,0"
+                                    FontFamily="Medium"
+                                    FontSize="28"
+                                    HorizontalTextAlignment="Start"
+                                    IsVisible="True"
+                                    Style="{StaticResource BaseDarkLbl}"
+                                    Text="{Binding BranchName}"
+                                    TextColor="Black" />
+                                <Label
+                                    FontFamily="Light"
+                                    FontSize="14"
+                                    HorizontalTextAlignment="End"
+                                    VerticalTextAlignment="End"
+                                    TextColor="Coral"
+                                    Style="{StaticResource BaseDarkLbl}"
+                                    Text="что-нибудь можно" />
+                            </VerticalStackLayout>
+                            <!--<Label Text="{Binding BranchName}" FontFamily="Regular" FontSize="14"  HorizontalOptions="StartAndExpand" TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />-->
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </Grid>
+    </Grid>
+
+
+
 </ContentPage>
