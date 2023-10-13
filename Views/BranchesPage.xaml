@@ -5,14 +5,14 @@
 			 xmlns:m="clr-namespace:BankTest.Models"
 			 x:Class="BankTest.Views.BranchesPage"
 			 x:DataType="vm:BranchesViewModel">
-    <CollectionView>
+    <CollectionView ItemsSource="{Binding Items}">
         <CollectionView.ItemTemplate>
         <DataTemplate x:DataType="m:Branch">
             <Frame Margin="4" Padding="12">
                 <Frame.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BranchesViewModel}}, Path=GoToDetailsCommand}" CommandParameter="{Binding .}" />
                 </Frame.GestureRecognizers>
-                <Label Text="{Binding BranchName}" FontSize="Large" TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Black}}" />
+                <Label Text="{Binding BranchName}" FontSize="Large" TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
             </Frame>
         </DataTemplate> 
     </CollectionView.ItemTemplate>

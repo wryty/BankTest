@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net.Http;
+using Newtonsoft.Json;
 
 namespace BankTest.Services;
 public class ApiService
@@ -18,7 +19,7 @@ public class ApiService
         if (response.IsSuccessStatusCode)
         {
             var content = await response.Content.ReadAsStringAsync();
-            var branchesWrapper = JsonSerializer.Deserialize<BranchesWrapper>(content);
+            var branchesWrapper = JsonConvert.DeserializeObject<BranchesWrapper>(content);
             return branchesWrapper.Branches;
         }
 

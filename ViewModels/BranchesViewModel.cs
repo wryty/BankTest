@@ -1,15 +1,17 @@
 ﻿namespace BankTest.ViewModels;
-
 public partial class BranchesViewModel : BaseViewModel
 {
-    private readonly ApiService _apiService;
-    private bool _isRefreshing;
-    private ObservableCollection<Branch> _branches;
+    readonly ApiService dataService;
 
-    public BranchesViewModel(ApiService apiService)
+    [ObservableProperty]
+    bool isRefreshing;
+
+    [ObservableProperty]
+    ObservableCollection<Branch> items;
+
+    public BranchesViewModel()
     {
-        _apiService = apiService;
-        _branches = new ObservableCollection<Branch>();
+        dataService = new ApiService();
     }
 
     [RelayCommand]
@@ -30,48 +32,25 @@ public partial class BranchesViewModel : BaseViewModel
     [RelayCommand]
     public async Task LoadMore()
     {
-        var newBranches = await _apiService.GetBranches();
-        foreach (var branch in newBranches)
+        var items = await dataService.GetBranches();
+    
+        foreach (var item in items)
         {
-            Branches.Add(branch);
+            Items.Add(item);
         }
     }
 
     public async Task LoadDataAsync()
     {
-        var branches = await _apiService.GetBranches();
-        Branches = new ObservableCollection<Branch>(branches);
+        Items = new ObservableCollection<Branch>(await dataService.GetBranches());
     }
 
     [RelayCommand]
-    private async Task GoToDetails(Branch branch)
+    private async Task GoToDetails(Branch item)
     {
-        await Shell.Current.GoToAsync(nameof(BranchesDetailPage), true, new Dictionary<string, object> { { "Branch", branch } });
-    }
-
-    public bool IsRefreshing
-    {
-        get { return _isRefreshing; }
-        set
+        await Shell.Current.GoToAsync(nameof(BranchesDetailPage), true, new Dictionary<string, object>
         {
-            if (_isRefreshing != value)
-            {
-                _isRefreshing = value;
-                OnPropertyChanged(nameof(IsRefreshing));
-            }
-        }
-    }
-
-    public ObservableCollection<Branch> Branches
-    {
-        get { return _branches; }
-        set
-        {
-            if (_branches != value)
-            {
-                _branches = value;
-                OnPropertyChanged(nameof(Branches));
-            }
-        }
+            { "Item", item }
+        });
     }
 }
