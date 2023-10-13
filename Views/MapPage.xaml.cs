@@ -1,30 +1,61 @@
-﻿using Mapsui.Layers.AnimatedLayers;
+﻿using Microsoft.Maui.Controls;
+using Mapsui.Layers;
 using Mapsui.Styles;
+using Mapsui.UI;
+using Mapsui.Projections;
 using Mapsui.Tiling;
+using Mapsui.UI.Maui;
 
-namespace BankTest.Views;
-
-public partial class MapPage : ContentPage
+namespace BankTest.Views
 {
-	public MapPage(MapViewModel viewModel)
-	{
-		InitializeComponent();
-		BindingContext = viewModel;
+    public partial class MapPage : ContentPage
+    {
+        public MapPage(MapViewModel viewModel)
+        {
+            InitializeComponent();
+            BindingContext = viewModel;
 
-        var mapControl = new Mapsui.UI.Maui.MapControl();
-		
-        mapControl.Map?.Layers.Add(Mapsui.Tiling.OpenStreetMap.CreateTileLayer());
+            var mapControl = new MapView();
+            var map = new Mapsui.Map();
+            map.Layers.Add(OpenStreetMap.CreateTileLayer());
 
-        Content = mapControl;
+            double latitude = 48.8566; // Широта Парижа
+            double longitude = 2.3522; // Долгота Парижа
 
+            var pin = new Pin
+            {
+                Label = "Париж",
+                Address = "Франция",
+                Position = new Position(latitude, longitude)
+            };
+            
 
-#if WINDOWS
-		// Note that the map control is not supported on Windows.
-		// For more details, see https://learn.microsoft.com/en-us/dotnet/maui/user-interface/controls/map?view=net-maui-7.0
-		// For a possible workaround, see https://github.com/CommunityToolkit/Maui/issues/605
-		Content = new Label() { Text = "Windows does not have a map control. 😢" };
-#endif
+            mapControl.Map = map;
+            mapControl.Pins.Add(pin);
+            InitializeMap(mapControl);
+            Content = mapControl;
+        }
 
+        private async void InitializeMap(MapView mapControl)
+        {
+            var location = await Geolocation.GetLastKnownLocationAsync();
+            if (location != null)
+            {
+                double latitude = location.Latitude;
+                double longitude = location.Longitude;
 
+                var pin = new Pin
+                {
+                    Label = "Ваше местоположение",
+                    Address = "Вы здесь",
+                    Position = new Position(latitude, longitude)
+                };
+
+                mapControl.Pins.Add(pin);
+
+                //map.Center = new Mapsui.Geometries.Point(latitude, longitude);
+                //map.Zoom = 10; // Установите желаемый уровень масштабирования
+            }
+        }
     }
 }
