@@ -1,9 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-			 xmlns:vm="clr-namespace:BankTest.ViewModels"
-			 x:Class="BankTest.Views.MapPage"
-			 x:DataType="vm:MapViewModel">
+<ContentPage
+    x:Class="BankTest.Views.MapPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:BankTest.ViewModels"
+    x:DataType="vm:MapViewModel">
 
-    <Map x:Name="TheMap" IsShowingUser="True"/> <!-- use another map api -->
+    <!--<Map x:Name="TheMap" IsShowingUser="True"/> -->
+    <!--  use another map api  -->
+    <ScrollView>
+        <VerticalStackLayout>
+            <Button
+                Command="{Binding LoadLocationCommand}"
+                HeightRequest="100"
+                Text="Локация"
+                WidthRequest="150" />
+
+
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

@@ -1,4 +1,5 @@
-﻿namespace BankTest;
+﻿using SkiaSharp.Views.Maui.Controls.Hosting;
+namespace BankTest;
 
 public static class MauiProgram
 {
@@ -8,6 +9,7 @@ public static class MauiProgram
 		builder
 			.UseMauiApp<App>()
 			.UseMauiCommunityToolkit()
+			.UseSkiaSharp(true)
 			.UseMauiMaps()
 			.ConfigureFonts(fonts =>
 			{
@@ -23,7 +25,7 @@ public static class MauiProgram
 		builder.Services.AddTransient<BranchesDetailPage>();
 
 		builder.Services.AddSingleton<BranchesViewModel>();
-
+		builder.Services.AddTransient<TestLocationService>();
 		builder.Services.AddSingleton<BranchesPage>();
 
 		builder.Services.AddSingleton<MapViewModel>();
