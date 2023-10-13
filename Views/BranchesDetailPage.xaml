@@ -6,8 +6,8 @@
 			 x:DataType="vm:BranchesDetailViewModel">
 	<ScrollView>
 		<VerticalStackLayout Margin="12">
-			<Label Text="{Binding Item.Title}" FontSize="Header" />
-			<Label Text="{Binding Item.Description}" FontSize="Default" />
+			<Label Text="{Binding Item.BranchName}" FontSize="Header" />
+			<Label Text="{Binding Item.City}" FontSize="Default" />
 		</VerticalStackLayout>
 	</ScrollView>
 </ContentPage>

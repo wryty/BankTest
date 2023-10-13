@@ -2,56 +2,76 @@
 
 public partial class BranchesViewModel : BaseViewModel
 {
-	readonly SampleDataService dataService;
+    private readonly ApiService _apiService;
+    private bool _isRefreshing;
+    private ObservableCollection<Branch> _branches;
 
-	[ObservableProperty]
-	bool isRefreshing;
+    public BranchesViewModel(ApiService apiService)
+    {
+        _apiService = apiService;
+        _branches = new ObservableCollection<Branch>();
+    }
 
-	[ObservableProperty]
-	ObservableCollection<SampleItem> items;
+    [RelayCommand]
+    private async Task OnRefreshing()
+    {
+        IsRefreshing = true;
 
-	public BranchesViewModel(SampleDataService service)
-	{
-		dataService = service;
-	}
+        try
+        {
+            await LoadDataAsync();
+        }
+        finally
+        {
+            IsRefreshing = false;
+        }
+    }
 
-	[RelayCommand]
-	private async Task OnRefreshing()
-	{
-		IsRefreshing = true;
+    [RelayCommand]
+    public async Task LoadMore()
+    {
+        var newBranches = await _apiService.GetBranches();
+        foreach (var branch in newBranches)
+        {
+            Branches.Add(branch);
+        }
+    }
 
-		try
-		{
-			await LoadDataAsync();
-		}
-		finally
-		{
-			IsRefreshing = false;
-		}
-	}
+    public async Task LoadDataAsync()
+    {
+        var branches = await _apiService.GetBranches();
+        Branches = new ObservableCollection<Branch>(branches);
+    }
 
-	[RelayCommand]
-	public async Task LoadMore()
-	{
-		var items = await dataService.GetItems();
+    [RelayCommand]
+    private async Task GoToDetails(Branch branch)
+    {
+        await Shell.Current.GoToAsync(nameof(BranchesDetailPage), true, new Dictionary<string, object> { { "Branch", branch } });
+    }
 
-		foreach (var item in items)
-		{
-			Items.Add(item);
-		}
-	}
+    public bool IsRefreshing
+    {
+        get { return _isRefreshing; }
+        set
+        {
+            if (_isRefreshing != value)
+            {
+                _isRefreshing = value;
+                OnPropertyChanged(nameof(IsRefreshing));
+            }
+        }
+    }
 
-	public async Task LoadDataAsync()
-	{
-		Items = new ObservableCollection<SampleItem>(await dataService.GetItems());
-	}
-
-	[RelayCommand]
-	private async Task GoToDetails(SampleItem item)
-	{
-		await Shell.Current.GoToAsync(nameof(BranchesDetailPage), true, new Dictionary<string, object>
-		{
-			{ "Item", item }
-		});
-	}
+    public ObservableCollection<Branch> Branches
+    {
+        get { return _branches; }
+        set
+        {
+            if (_branches != value)
+            {
+                _branches = value;
+                OnPropertyChanged(nameof(Branches));
+            }
+        }
+    }
 }

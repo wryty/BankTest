@@ -19,7 +19,6 @@ public static class MauiProgram
 
 		builder.Services.AddSingleton<MainPage>();
 
-		builder.Services.AddTransient<SampleDataService>();
 		builder.Services.AddTransient<BranchesDetailViewModel>();
 		builder.Services.AddTransient<BranchesDetailPage>();
 

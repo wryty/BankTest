@@ -4,5 +4,5 @@
 public partial class BranchesDetailViewModel : BaseViewModel
 {
 	[ObservableProperty]
-	SampleItem item;
+	Branch item;
 }
