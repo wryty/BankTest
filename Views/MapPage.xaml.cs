@@ -14,7 +14,8 @@ public partial class MapPage : ContentPage
         var mapControl = new Mapsui.UI.Maui.MapControl();
 		
         mapControl.Map?.Layers.Add(Mapsui.Tiling.OpenStreetMap.CreateTileLayer());
-        
+
+        Content = mapControl;
 
 
 #if WINDOWS
