@@ -5,17 +5,87 @@
              xmlns:m="clr-namespace:BankTest.Models"
 			 x:Class="BankTest.Views.BranchesDetailPage"
 			 x:DataType="vm:BranchesDetailViewModel">
-	<ScrollView>
-		<VerticalStackLayout Margin="12">
-			<Label Text="{Binding Item.BranchName}" FontSize="Header" />
-            <Label Text="{Binding Item.City}" FontSize="Default" />
-            <CollectionView ItemsSource="{Binding Item.Services}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="m:Service">
-                        <Label Text="{Binding ServiceName}" TextColor="White" FontSize="Medium"/>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-		</VerticalStackLayout>
-	</ScrollView>
+
+    <Grid BackgroundColor="{StaticResource Secondary}" RowDefinitions="50,*,200">
+        <Label
+         Margin="0,20,0,0"
+         FontFamily="Bold"
+         FontSize="24"
+         HorizontalTextAlignment="Center"
+         TextColor="Black"
+         Style="{StaticResource BaseWhiteLbl}"
+         Text="Отделение" />
+        <Border
+         x:Name="qrborder"
+         Grid.Row="1"
+         Margin="10"
+         Padding="10"
+         BackgroundColor="Black"
+         HorizontalOptions="Fill"
+         Stroke="Transparent"
+         StrokeShape="RoundRectangle 10"
+         VerticalOptions="Center"
+         WidthRequest="350">
+            <ScrollView>
+                <VerticalStackLayout Margin="12">
+                    <Label Text="{Binding Item.BranchName}"  FontSize="35" TextColor="White" />
+                    <Label  Text="              "/>
+                    <Label Text="{Binding Item.City}" FontSize="22"  TextColor="Snow" />
+                </VerticalStackLayout>
+            </ScrollView>
+        </Border>
+        
+        
+        <Border
+     Grid.Row="2"
+     Margin="0,20,0,0"
+     BackgroundColor="{StaticResource SecondaryDarker}"
+     HeightRequest="120"
+     StrokeShape="RoundRectangle 5"
+     StrokeThickness="0"
+     WidthRequest="350">
+            <Grid  RowDefinitions="100,*,200">
+                <Border
+             Padding="12"
+             BackgroundColor="Gray"
+             HeightRequest="250"
+             StrokeShape="RoundRectangle 2"
+             StrokeThickness="0"
+             WidthRequest="300">
+
+                    <ScrollView>
+                        <VerticalStackLayout Margin="12">
+                            <CollectionView ItemsSource="{Binding Item.Services}">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="m:Service">
+                                        <Label Text="{Binding ServiceName}" HorizontalTextAlignment="Center" TextColor="White" FontSize="22"/>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </VerticalStackLayout>
+
+                    </ScrollView>
+                </Border>
+
+                <VerticalStackLayout
+             Grid.Column="1"
+             Margin="3,0,0,0"
+             Spacing="-4"
+             VerticalOptions="CenterAndExpand">
+
+                  
+
+                </VerticalStackLayout>
+            </Grid>
+        </Border>
+
+    </Grid>
+
+
+    
+     
+    
+   
+    
+  
 </ContentPage>
